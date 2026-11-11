@@ -1,5 +1,11 @@
 # @guello/oxlint-config
 
+## 0.2.0
+
+### Minor Changes
+
+- 669a30e: The `react` preset reports parent folder imports, such as `../utils`, and `.js`, `.jsx`, `.ts` and `.tsx` import extensions. Use a path alias such as `@/` instead of a parent folder.
+
 ## 0.1.1
 
 ### Patch Changes
