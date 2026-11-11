@@ -4,12 +4,13 @@ Shared tool configurations in a single pnpm workspace. Each package ships to npm
 
 ## Layout
 
-| Path                     | Package                 | What it is                                                                    |
-| ------------------------ | ----------------------- | ----------------------------------------------------------------------------- |
-| `packages/oxlint-config` | `@guello/oxlint-config` | Oxlint presets `base`, `node` and `react`, and `defineConfig`.                |
-| `packages/oxlint-plugin` | `@guello/oxlint-plugin` | `@guello` plugin with the `func-style` and `no-inferrable-return-type` rules. |
-| `packages/oxfmt-config`  | `@guello/oxfmt-config`  | Oxfmt presets `base` and `react`, and `defineConfig`.                         |
-| `packages/tsconfig`      | `@guello/tsconfig`      | TypeScript presets `base`, `node` and `react` as JSON files.                  |
+| Path                         | Package                     | What it is                                                                    |
+| ---------------------------- | --------------------------- | ----------------------------------------------------------------------------- |
+| `packages/commitlint-config` | `@guello/commitlint-config` | commitlint preset for Conventional Commits, and `defineConfig`.               |
+| `packages/oxlint-config`     | `@guello/oxlint-config`     | Oxlint presets `base`, `node` and `react`, and `defineConfig`.                |
+| `packages/oxlint-plugin`     | `@guello/oxlint-plugin`     | `@guello` plugin with the `func-style` and `no-inferrable-return-type` rules. |
+| `packages/oxfmt-config`      | `@guello/oxfmt-config`      | Oxfmt presets `base` and `react`, and `defineConfig`.                         |
+| `packages/tsconfig`          | `@guello/tsconfig`          | TypeScript presets `base`, `node` and `react` as JSON files.                  |
 
 ## Commands
 
@@ -31,7 +32,7 @@ Use the Node.js version in `.node-version` and the pnpm version in `packageManag
 
 ## Workspace rules
 
-- The root `oxlint.config.ts` and `oxfmt.config.ts` call `defineConfig` from package sources. The root `tsconfig.json` extends `packages/tsconfig/node.json`.
+- The root `commitlint.config.ts`, `oxlint.config.ts` and `oxfmt.config.ts` call `defineConfig` from package sources. The root `tsconfig.json` extends `packages/tsconfig/node.json`.
 - From source, the `oxlint-config` presets load the `oxlint-plugin` source, so the root lint needs no build. From `dist`, they load the built plugin.
 - The root `devDependencies` hold the repository tools. Each package holds its own build and test tools.
 - A tool that more than one package uses gets its version from the strict catalog in `pnpm-workspace.yaml`.

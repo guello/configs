@@ -4,6 +4,7 @@ packages:
 catalogMode: strict
 
 catalog:
+  '@commitlint/cli': ^21.2.4
   '@types/node': ^26.6.6
   oxfmt: ^0.76.0
   oxlint: ^1.91.0

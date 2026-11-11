@@ -5,6 +5,10 @@
     ".": {
       "entry": ["*.config.ts", ".github/scripts/*.ts"]
     },
+    "packages/commitlint-config": {
+      "entry": ["test/**/*.test.ts"],
+      "ignoreDependencies": ["@commitlint/cli"]
+    },
     "packages/oxfmt-config": {
       "entry": ["test/**/*.test.ts"]
     },

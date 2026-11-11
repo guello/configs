@@ -164,6 +164,9 @@ settings:
 
 catalogs:
   default:
+    '@commitlint/cli':
+      specifier: ^21.2.4
+      version: 21.2.4
     '@types/node':
       specifier: ^26.6.6
       version: 26.6.6
@@ -200,11 +203,8 @@ importers:
         specifier: ^4.0.1
         version: 4.0.1
       '@commitlint/cli':
-        specifier: ^21.2.4
+        specifier: 'catalog:'
         version: 21.2.4(conventional-commits-parser@7.1.4)(typescript@7.0.2)
-      '@commitlint/config-conventional':
-        specifier: ^21.2.4
-        version: 21.2.4
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.6
@@ -223,6 +223,34 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 7.0.2
+
+  packages/commitlint-config:
+    dependencies:
+      '@commitlint/config-conventional':
+        specifier: ^21.2.4
+        version: 21.2.4
+      '@commitlint/types':
+        specifier: ^21.2.3
+        version: 21.2.3
+    devDependencies:
+      '@commitlint/cli':
+        specifier: 'catalog:'
+        version: 21.2.4(conventional-commits-parser@7.1.4)(typescript@7.0.2)
+      '@types/node':
+        specifier: 'catalog:'
+        version: 26.6.6
+      publint:
+        specifier: 'catalog:'
+        version: 0.3.25
+      tsdown:
+        specifier: 'catalog:'
+        version: 0.23.5(oxc-resolver@11.24.2)(publint@0.3.25)(typescript@7.0.2)
+      typescript:
+        specifier: 'catalog:'
+        version: 7.0.2
+      vitest:
+        specifier: 'catalog:'
+        version: 5.1.0(@types/node@26.6.6)(vite@8.3.5(@types/node@26.6.6)(jiti@2.7.0)(yaml@2.9.1))
 
   packages/oxfmt-config:
     devDependencies:

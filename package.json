@@ -25,45 +25,12 @@
   "devDependencies": {
     "@changesets/cli": "^3.0.3",
     "@changesets/config": "^4.0.1",
-    "@commitlint/cli": "^21.2.4",
-    "@commitlint/config-conventional": "^21.2.4",
+    "@commitlint/cli": "catalog:",
     "@types/node": "catalog:",
     "knip": "^6.44.1",
     "oxfmt": "catalog:",
     "oxlint": "catalog:",
     "oxlint-tsgolint": "catalog:",
     "typescript": "catalog:"
-  },
-  "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
-    ],
-    "rules": {
-      "body-max-line-length": [
-        0
-      ],
-      "footer-max-line-length": [
-        0
-      ],
-      "header-max-length": [
-        2,
-        "always",
-        72
-      ],
-      "scope-enum": [
-        2,
-        "always",
-        [
-          "agents",
-          "ci",
-          "deps",
-          "oxfmt-config",
-          "oxlint-config",
-          "oxlint-plugin",
-          "release",
-          "tsconfig"
-        ]
-      ]
-    }
   }
 }
