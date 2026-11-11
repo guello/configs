@@ -1,0 +1,22 @@
+{
+  "$schema": "./node_modules/knip/schema.json",
+  "ignore": ["packages/*/test/fixtures/**"],
+  "workspaces": {
+    ".": {
+      "entry": ["*.config.ts", ".github/scripts/*.ts"]
+    },
+    "packages/oxfmt-config": {
+      "entry": ["test/**/*.test.ts"]
+    },
+    "packages/oxlint-config": {
+      "entry": ["test/**/*.test.ts"],
+      "ignoreDependencies": ["oxlint-plugin-react-doctor"]
+    },
+    "packages/oxlint-plugin": {
+      "entry": ["test/**/*.test.ts"]
+    },
+    "packages/tsconfig": {
+      "entry": ["test/**/*.test.ts"]
+    }
+  }
+}

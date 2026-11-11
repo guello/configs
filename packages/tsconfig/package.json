@@ -1,0 +1,49 @@
+{
+  "name": "@guello/tsconfig",
+  "version": "0.0.0",
+  "description": "Shared TypeScript configs: strict checks and erasable syntax.",
+  "keywords": [
+    "tsconfig",
+    "typescript"
+  ],
+  "homepage": "https://github.com/guello/configs/tree/main/packages/tsconfig#readme",
+  "bugs": {
+    "url": "https://github.com/guello/configs/issues"
+  },
+  "license": "MIT",
+  "author": "Gabriele Canepa",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/guello/configs.git",
+    "directory": "packages/tsconfig"
+  },
+  "files": [
+    "base.json",
+    "node.json",
+    "react.json"
+  ],
+  "type": "module",
+  "exports": {
+    ".": "./base.json",
+    "./node": "./node.json",
+    "./react": "./react.json",
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "publint --strict",
+    "check:types": "tsc --noEmit",
+    "test": "pnpm run build && vitest run --dir test --exclude \"**/fixtures/**\""
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "publint": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  },
+  "peerDependencies": {
+    "typescript": ">=5.8.2 <8"
+  }
+}

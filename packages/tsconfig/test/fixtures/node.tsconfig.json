@@ -1,0 +1,4 @@
+{
+  "extends": "@guello/tsconfig/node",
+  "include": ["clean.ts"]
+}

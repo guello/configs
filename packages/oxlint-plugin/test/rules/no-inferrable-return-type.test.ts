@@ -1,0 +1,128 @@
+import { RuleTester } from 'oxlint/plugins-dev'
+import { describe, it } from 'vitest'
+
+import { noInferrableReturnType } from '../../src/rules/no-inferrable-return-type.ts'
+
+RuleTester.describe = describe
+RuleTester.it = it
+
+const tester = new RuleTester({
+  languageOptions: { sourceType: 'module', parserOptions: { lang: 'ts' } },
+})
+
+function removal(code: string, output: string) {
+  return {
+    code,
+    errors: [{ messageId: 'inferrable', suggestions: [{ messageId: 'remove', output }] }],
+  }
+}
+
+tester.run('no-inferrable-return-type', noInferrableReturnType, {
+  valid: [
+    'export function double(value: number) { return value * 2 }',
+    'export const triple = (value: number) => value * 3',
+    'export function isText(value: unknown): value is string { return typeof value === "string" }',
+    'export function assert(value: unknown): asserts value {}',
+    'export function fail(message: string): never { throw new Error(message) }',
+    'export function find(items: string[]): string | undefined { if (items.length > 0) return items[0]; return }',
+    'export async function load(): Promise<string | undefined> { return }',
+    'export function pick(value: string): string\nexport function pick(value: number): number\nexport function pick(value: string | number): string | number { return value }',
+    'export class Box { pick(value: string): string\n  pick(value: number): number\n  pick(value: string | number): string | number { return value } }',
+    'export abstract class Shape { abstract area(): number }',
+    'export declare function declared(): number',
+    'export interface Api { get(): number }',
+    'export type Get = () => number',
+    'export function factorial(value: number): number { return value <= 1 ? 1 : value * factorial(value - 1) }',
+    'export const walk = (depth: number): number => (depth > 0 ? walk(depth - 1) : 0)',
+    'export class Tree { depth(): number { return this.depth() + 1 } }',
+    {
+      code: 'export function parse(text: string): unknown { return JSON.parse(text) }',
+      options: [{ allowExported: true }],
+    },
+    {
+      code: 'export const parse = (text: string): unknown => JSON.parse(text)',
+      options: [{ allowExported: true }],
+    },
+    {
+      code: 'export default function parse(text: string): unknown { return JSON.parse(text) }',
+      options: [{ allowExported: true }],
+    },
+    {
+      code: 'export class Parser { parse(text: string): unknown { return JSON.parse(text) } }',
+      options: [{ allowExported: true }],
+    },
+    {
+      code: 'export const api = { parse(text: string): unknown { return JSON.parse(text) } }',
+      options: [{ allowExported: true }],
+    },
+    {
+      code: 'function parse(text: string): unknown { return JSON.parse(text) }\nexport { parse }',
+      options: [{ allowExported: true }],
+    },
+    {
+      code: 'const parse = (text: string): unknown => JSON.parse(text)\nexport default parse',
+      options: [{ allowExported: true }],
+    },
+  ],
+  invalid: [
+    removal(
+      'export function double(value: number): number { return value * 2 }',
+      'export function double(value: number) { return value * 2 }',
+    ),
+    removal(
+      'export const triple = (value: number): number => value * 3',
+      'export const triple = (value: number) => value * 3',
+    ),
+    removal(
+      'export const save = async (): Promise<void> => {}',
+      'export const save = async () => {}',
+    ),
+    removal(
+      'export class Box { size(): number { return 1 } }',
+      'export class Box { size() { return 1 } }',
+    ),
+    removal(
+      'export class Box { get size(): number { return 1 } }',
+      'export class Box { get size() { return 1 } }',
+    ),
+    removal(
+      'export const api = { size(): number { return 1 } }',
+      'export const api = { size() { return 1 } }',
+    ),
+    removal(
+      'export function* count(): Generator<number> { yield 1 }',
+      'export function* count() { yield 1 }',
+    ),
+    removal('[1].map((value): number => value)', '[1].map((value) => value)'),
+    {
+      code: 'export function outer() { function inner(): number { return 1 }\n  return inner() }',
+      options: [{ allowExported: true }],
+      errors: [
+        {
+          messageId: 'inferrable',
+          suggestions: [
+            {
+              messageId: 'remove',
+              output: 'export function outer() { function inner() { return 1 }\n  return inner() }',
+            },
+          ],
+        },
+      ],
+    },
+    {
+      code: 'function local(): number { return 1 }\nexport const value = local()',
+      options: [{ allowExported: true }],
+      errors: [
+        {
+          messageId: 'inferrable',
+          suggestions: [
+            {
+              messageId: 'remove',
+              output: 'function local() { return 1 }\nexport const value = local()',
+            },
+          ],
+        },
+      ],
+    },
+  ],
+})

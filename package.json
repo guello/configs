@@ -1,0 +1,63 @@
+{
+  "name": "@guello/configs",
+  "private": true,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/guello/configs.git"
+  },
+  "type": "module",
+  "packageManager": "pnpm@12.16.1",
+  "scripts": {
+    "prepare": "git config core.hooksPath .githooks",
+    "build": "pnpm -r run build",
+    "changeset": "changeset",
+    "check": "pnpm run \"/^check:/\"",
+    "check:format": "oxfmt --check",
+    "check:knip": "knip",
+    "check:lint": "oxlint",
+    "check:types": "tsc --noEmit && pnpm -r --parallel run check:types",
+    "ci": "pnpm run check && pnpm run test",
+    "fix": "oxlint --fix && oxfmt",
+    "release": "pnpm run ci && changeset publish",
+    "test": "pnpm -r run test"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^3.0.3",
+    "@changesets/config": "^4.0.1",
+    "@commitlint/cli": "^21.2.4",
+    "@commitlint/config-conventional": "^21.2.4",
+    "@types/node": "catalog:",
+    "knip": "^6.44.1",
+    "oxfmt": "catalog:",
+    "oxlint": "catalog:",
+    "oxlint-tsgolint": "catalog:",
+    "typescript": "catalog:"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ],
+    "rules": {
+      "header-max-length": [
+        2,
+        "always",
+        72
+      ],
+      "scope-enum": [
+        2,
+        "always",
+        [
+          "agents",
+          "ci",
+          "deps",
+          "oxfmt-config",
+          "oxlint-config",
+          "oxlint-plugin",
+          "release",
+          "tsconfig"
+        ]
+      ]
+    }
+  }
+}

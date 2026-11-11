@@ -1,0 +1,4 @@
+{
+  "extends": "@guello/tsconfig",
+  "include": ["failing.ts", "script-a.ts", "script-b.ts"]
+}

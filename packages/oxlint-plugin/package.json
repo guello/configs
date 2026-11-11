@@ -1,0 +1,59 @@
+{
+  "name": "@guello/oxlint-plugin",
+  "version": "0.0.0",
+  "description": "Oxlint rules for module-scope function declarations and inferrable return types.",
+  "keywords": [
+    "lint",
+    "oxc",
+    "oxlint",
+    "oxlint-plugin"
+  ],
+  "homepage": "https://github.com/guello/configs/tree/main/packages/oxlint-plugin#readme",
+  "bugs": {
+    "url": "https://github.com/guello/configs/issues"
+  },
+  "license": "MIT",
+  "author": "Gabriele Canepa",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/guello/configs.git",
+    "directory": "packages/oxlint-plugin"
+  },
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsdown src/index.ts --dts.generator oxc --publint --fail-on-warn",
+    "check:types": "tsc --noEmit",
+    "prepack": "pnpm run build",
+    "test": "pnpm run build && vitest run --dir test --exclude \"**/fixtures/**\""
+  },
+  "dependencies": {
+    "@oxlint/plugins": "^1.91.0"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "oxlint": "catalog:",
+    "publint": "catalog:",
+    "tsdown": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  },
+  "peerDependencies": {
+    "oxlint": ">=1.88.0 <2"
+  },
+  "engines": {
+    "node": ">=22.18.0"
+  }
+}

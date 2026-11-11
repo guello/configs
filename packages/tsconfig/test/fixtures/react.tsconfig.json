@@ -1,0 +1,4 @@
+{
+  "extends": "@guello/tsconfig/react",
+  "include": ["dom.ts"]
+}
