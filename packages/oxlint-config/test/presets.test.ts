@@ -54,6 +54,8 @@ describe('presets', () => {
       'failing.tsx react(hooks)',
       'failing.tsx react(purity)',
       'failing.tsx react-doctor(no-random-key)',
+      'nested/failing.tsx import(extensions)',
+      'nested/failing.tsx import(no-relative-parent-imports)',
     ])
   })
 

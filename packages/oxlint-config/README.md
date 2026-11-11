@@ -232,6 +232,7 @@ The preset extends `base` for React apps:
 - **React rules** with compiler checks and the rules of hooks.
 - **Strict accessibility rules** from `jsx-a11y`.
 - **Useful [react-doctor](https://github.com/millionco/react-doctor) enforcements**, such as `no-random-key` and `effect-needs-cleanup`.
+- **Import paths** with no parent folders such as `../utils`, and no `.js`, `.jsx`, `.ts` or `.tsx` extensions. Use a path alias such as `@/` instead of a parent folder.
 - **Browser globals** with the ES2022 environment.
 
 <details>

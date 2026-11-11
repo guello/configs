@@ -3,8 +3,8 @@ import type { OxlintConfig } from 'oxlint'
 import { base } from './base.ts'
 
 /**
- * Base preset with the React, React Compiler and `jsx-a11y` rules, react-doctor and browser
- * globals.
+ * Base preset with the React, React Compiler and `jsx-a11y` rules, react-doctor, import path rules
+ * and browser globals.
  *
  * @see {@link https://github.com/guello/configs/tree/main/packages/oxlint-config#react | React preset}
  */
@@ -19,6 +19,11 @@ export const react: OxlintConfig = {
   rules: {
     ...base.rules,
     curly: ['error', 'multi-line'],
+    'import/extensions': [
+      'error',
+      { checkTypeImports: true, js: 'never', jsx: 'never', ts: 'never', tsx: 'never' },
+    ],
+    'import/no-relative-parent-imports': 'error',
     'no-shadow': 'error',
     'prefer-template': 'error',
     'promise/no-promise-in-callback': 'error',
