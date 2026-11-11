@@ -25,7 +25,7 @@ export const base: Preset = {
       'unknown',
     ],
   },
-  sortPackageJson: false,
+  sortPackageJson: true,
   overrides: [
     {
       files: ['*.css', '*.less', '*.scss'],

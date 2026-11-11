@@ -7,7 +7,6 @@
     "url": "git+https://github.com/guello/configs.git"
   },
   "type": "module",
-  "packageManager": "pnpm@12.16.1",
   "scripts": {
     "prepare": "git config core.hooksPath .githooks",
     "build": "pnpm -r run build",
@@ -32,5 +31,6 @@
     "oxlint": "catalog:",
     "oxlint-tsgolint": "catalog:",
     "typescript": "catalog:"
-  }
+  },
+  "packageManager": "pnpm@12.16.1"
 }

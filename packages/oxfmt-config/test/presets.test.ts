@@ -120,6 +120,23 @@ describe('presets', () => {
       expect(await format('base', 'input.jsonc', long)).toBe(long.replace('value"\n', 'value",\n'))
     })
 
+    it('sorts the keys of package.json and keeps the order of scripts', async () => {
+      const source =
+        '{ "version": "1.0.0", "scripts": { "test": "vitest", "build": "tsdown" }, "name": "demo" }\n'
+      expect(await format('base', 'package.json', source)).toBe(
+        lines(
+          '{',
+          '  "name": "demo",',
+          '  "version": "1.0.0",',
+          '  "scripts": {',
+          '    "test": "vitest",',
+          '    "build": "tsdown"',
+          '  }',
+          '}',
+        ),
+      )
+    })
+
     it('sorts imports into groups', async () => {
       const source = lines(
         "import './setup.ts'",
