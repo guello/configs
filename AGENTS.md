@@ -29,6 +29,7 @@ Use the Node.js version in `.node-version` and the pnpm version in `packageManag
 - The Git hooks run `pnpm run check` before a commit, commitlint on the message, and `pnpm run ci` before a push.
 - On each push to `main`, pull request and manual run, CI runs `pnpm run check` on `.node-version`, and commitlint on pull request commits.
 - CI runs `pnpm run test` on Node.js 22.18.0 (the `engines` floor), 24 and 26.
+- CI skips commits pushed by `github-actions[bot]` because `release.yml` already runs `pnpm run ci` on the release commit.
 
 ## Workspace rules
 
