@@ -1,6 +1,6 @@
 {
   "name": "@guello/oxlint-config",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Shared Oxlint presets for TypeScript, with type-aware rules and the @guello/oxlint-plugin rules.",
   "keywords": [
     "lint",
