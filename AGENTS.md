@@ -63,4 +63,14 @@ Use the Node.js version in `.node-version` and the pnpm version in `packageManag
 
 Add a changeset when a pull request changes a `dependencies` or `peerDependencies` range, also to a Dependabot pull request.
 
-Do not publish from a local machine after the first release. Do not add an npm token to the repository.
+### New package
+
+npm accepts a trusted publisher only for a package that exists. Release a new package in this order:
+
+1. Merge the pull request that adds the package at `0.0.0` with a changeset.
+2. On `main`, publish `0.0.0` with `pnpm --filter <name> publish --access public`. Approve the 2FA request at the link that pnpm prints.
+3. If npm stages the version, approve it in the "Staged Packages" tab on npmjs.com.
+4. On npmjs.com, add a trusted publisher for GitHub Actions with the repository `guello/configs` and the workflow `release.yml`. Then set the publishing access to require 2FA and disallow tokens.
+5. Merge the version pull request. `release.yml` publishes the first release, pushes its tag and creates the GitHub release.
+
+Publish from a local machine only version `0.0.0` of a new package. Never add an npm token to the repository.
