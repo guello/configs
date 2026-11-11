@@ -1,6 +1,6 @@
 {
   "name": "@guello/oxlint-plugin",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Oxlint rules for module-scope function declarations and inferrable return types.",
   "keywords": [
     "lint",
