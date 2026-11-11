@@ -1,6 +1,6 @@
 {
   "name": "@guello/commitlint-config",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Shared preset for Conventional Commits, with a defineConfig factory for types, scopes and overrides.",
   "keywords": [
     "commitlint",

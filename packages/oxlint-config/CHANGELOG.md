@@ -1,5 +1,12 @@
 # @guello/oxlint-config
 
+## 0.1.1
+
+### Patch Changes
+
+- Updated dependencies [4b72ac0]
+  - @guello/oxlint-plugin@0.2.0
+
 ## 0.1.0
 
 ### Minor Changes
