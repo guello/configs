@@ -1,6 +1,6 @@
 # @guello/oxlint-plugin
 
-[![npm](https://img.shields.io/npm/v/@guello/oxlint-plugin)](https://www.npmjs.com/package/@guello/oxlint-plugin) [![CI](https://github.com/guello/configs/actions/workflows/ci.yml/badge.svg)](https://github.com/guello/configs/actions/workflows/ci.yml)
+[![npm](https://img.shields.io/npm/v/@guello/oxlint-plugin?labelColor=%23333C46&color=red)](https://npmjs.com/package/@guello/oxlint-plugin) [![CI](https://github.com/guello/configs/actions/workflows/ci.yml/badge.svg)](https://github.com/guello/configs/actions/workflows/ci.yml)
 
 [Oxlint](https://oxc.rs/docs/guide/usage/linter) JS plugin with rules to enforce function style and omit inferrable return types.
 
@@ -98,9 +98,9 @@ The rule offers a suggestion because the inferred type can differ. Apply it with
 
 type: `boolean`
 
-default: `false`
+default: `isolatedDeclarations` of `tsconfig.json`
 
-With `isolatedDeclarations`, TypeScript needs the return types of all exported functions. Use `true` to allow them.
+With `isolatedDeclarations`, TypeScript needs the return types of all exported functions. The rule reads the nearest `tsconfig.json`, the configurations it extends, and allows return types when `isolatedDeclarations` is on. Set the option to ignore the tsconfig value.
 
 ## License
 

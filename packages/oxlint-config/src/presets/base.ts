@@ -13,7 +13,7 @@ const pluginPath =
 /**
  * Type-aware rules for TypeScript projects, with the `@guello` plugin rules.
  *
- * @see {@link https://github.com/guello/configs/tree/main/packages/oxlint-config#base}
+ * @see {@link https://github.com/guello/configs/tree/main/packages/oxlint-config#base | Base preset}
  */
 export const base: OxlintConfig = {
   plugins: ['eslint', 'import', 'jsdoc', 'oxc', 'promise', 'typescript', 'unicorn'],

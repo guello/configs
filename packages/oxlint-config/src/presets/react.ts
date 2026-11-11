@@ -3,9 +3,10 @@ import type { OxlintConfig } from 'oxlint'
 import { base } from './base.ts'
 
 /**
- * `base` with the React, React Compiler and `jsx-a11y` rules, react-doctor and the browser globals.
+ * Base preset with the React, React Compiler and `jsx-a11y` rules, react-doctor and browser
+ * globals.
  *
- * @see {@link https://github.com/guello/configs/tree/main/packages/oxlint-config#react}
+ * @see {@link https://github.com/guello/configs/tree/main/packages/oxlint-config#react | React preset}
  */
 export const react: OxlintConfig = {
   ...base,

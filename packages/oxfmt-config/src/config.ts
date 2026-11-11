@@ -14,7 +14,7 @@ import type { UserConfig } from './types.ts'
  *     ignorePatterns: ['dist'],
  *   })
  *
- * @see {@link https://github.com/guello/configs/tree/main/packages/oxfmt-config#usage}
+ * @see {@link https://github.com/guello/configs/tree/main/packages/oxfmt-config#usage | Usage}
  */
 export function defineConfig(config: UserConfig = {}): OxfmtConfig {
   const { react: isReact, overrides = [], ...settings } = config

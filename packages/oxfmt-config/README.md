@@ -1,6 +1,6 @@
 # @guello/oxfmt-config
 
-[![npm](https://img.shields.io/npm/v/@guello/oxfmt-config)](https://www.npmjs.com/package/@guello/oxfmt-config) [![CI](https://github.com/guello/configs/actions/workflows/ci.yml/badge.svg)](https://github.com/guello/configs/actions/workflows/ci.yml)
+[![npm](https://img.shields.io/npm/v/@guello/oxfmt-config?labelColor=%23333C46&color=red)](https://npmjs.com/package/@guello/oxfmt-config) [![CI](https://github.com/guello/configs/actions/workflows/ci.yml/badge.svg)](https://github.com/guello/configs/actions/workflows/ci.yml)
 
 Shared [Oxfmt](https://oxc.rs/docs/guide/usage/formatter) configuration: clean syntax, organized imports, agent-aware.
 
@@ -105,7 +105,7 @@ export default defineConfig({
 })
 ```
 
-The function accepts all Oxfmt settings. The specified overrides are appended to the preset `overrides` array. All other options replace the configuration value.
+The function accepts all Oxfmt settings. The specified overrides are appended to the preset `overrides` array. All other options replace the preset value.
 
 Specify the `react` option to activate React-aware formatting:
 

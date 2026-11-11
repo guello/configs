@@ -4,7 +4,7 @@ import type { Preset } from '../types.ts'
 /**
  * No semicolons, single quotes, trailing commas and sorted imports.
  *
- * @see {@link https://github.com/guello/configs/tree/main/packages/oxfmt-config#base}
+ * @see {@link https://github.com/guello/configs/tree/main/packages/oxfmt-config#base | Base preset}
  */
 export const base: Preset = {
   arrowParens: 'avoid',

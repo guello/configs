@@ -1,6 +1,6 @@
 # @guello/oxlint-config
 
-[![npm](https://img.shields.io/npm/v/@guello/oxlint-config)](https://www.npmjs.com/package/@guello/oxlint-config) [![CI](https://github.com/guello/configs/actions/workflows/ci.yml/badge.svg)](https://github.com/guello/configs/actions/workflows/ci.yml)
+[![npm](https://img.shields.io/npm/v/@guello/oxlint-config?labelColor=%23333C46&color=red)](https://npmjs.com/package/@guello/oxlint-config) [![CI](https://github.com/guello/configs/actions/workflows/ci.yml/badge.svg)](https://github.com/guello/configs/actions/workflows/ci.yml)
 
 Shared [Oxlint](https://oxc.rs/docs/guide/usage/linter) configuration: type-aware rules, enforced function style, Node.js and React support.
 
@@ -72,7 +72,7 @@ export { node as default } from '@guello/oxlint-config'
 
 ### `base`
 
-The base configuration activates the following features.
+The base preset activates the following features.
 
 - **Strict type-aware rules** such as `no-misused-promises` and `prefer-nullish-coalescing`.
 - **Correctness rules** reported as errors, with a selection of the most important rules from the `eslint`, `import`, `jsdoc`, `oxc`, `promise`, `typescript` and `unicorn` plugins.

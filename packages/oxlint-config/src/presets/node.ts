@@ -3,10 +3,9 @@ import type { OxlintConfig } from 'oxlint'
 import { base } from './base.ts'
 
 /**
- * `base` with the stricter rules for Node.js packages and tools, the `node` plugin and test file
- * overrides.
+ * Base preset with the stricter rules, the `node` plugin and test file overrides.
  *
- * @see {@link https://github.com/guello/configs/tree/main/packages/oxlint-config#node}
+ * @see {@link https://github.com/guello/configs/tree/main/packages/oxlint-config#node | Node.js preset}
  */
 export const node: OxlintConfig = {
   ...base,

@@ -12,7 +12,7 @@ import type { UserConfig } from './types.ts'
  * @example
  *   export default defineConfig({ node: true, ignorePatterns: ['dist'] })
  *
- * @see {@link https://github.com/guello/configs/tree/main/packages/oxlint-config#usage}
+ * @see {@link https://github.com/guello/configs/tree/main/packages/oxlint-config#usage | Usage}
  */
 export function defineConfig(config: UserConfig = {}): OxlintConfig {
   const { node: isNode, react: isReact, ...settings } = config

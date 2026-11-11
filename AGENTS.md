@@ -49,7 +49,7 @@ Use the Node.js version in `.node-version` and the pnpm version in `packageManag
 - Keep the return types that `isolatedDeclarations` needs, type predicates, and types with `undefined` for paths that return no value.
 - Give each export and option a JSDoc for its users: what it is or returns, and what each option changes.
 - Leave implementation details, `{type}` braces and repeated signature tags out of a JSDoc. Give `defineConfig` one `@example`.
-- Give `defineConfig` and each preset an `@see {@link <url>}` to its README section.
+- Give `defineConfig` and each preset an `@see {@link <url> | <label>}` to its README section.
 - Tests use Vitest in the `test/` folder of each package. Rule tests use `RuleTester`, and preset tests run the tool CLI on `test/fixtures/`.
 
 ## Release

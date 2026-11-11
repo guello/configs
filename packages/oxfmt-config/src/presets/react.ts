@@ -2,9 +2,9 @@ import type { Preset } from '../types.ts'
 import { base } from './base.ts'
 
 /**
- * `base` with a `react` and `react-dom` import group after the Node.js built-in modules.
+ * Base preset with a `react` and `react-dom` import group after the Node.js built-in modules.
  *
- * @see {@link https://github.com/guello/configs/tree/main/packages/oxfmt-config#react}
+ * @see {@link https://github.com/guello/configs/tree/main/packages/oxfmt-config#react | React preset}
  */
 export const react: Preset = {
   ...base,
