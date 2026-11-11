@@ -76,7 +76,7 @@ The base preset activates the following features.
 
 - **Strict type-aware rules** such as `no-misused-promises` and `prefer-nullish-coalescing`.
 - **Correctness rules** reported as errors, with a selection of the most important rules from the `eslint`, `import`, `jsdoc`, `oxc`, `promise`, `typescript` and `unicorn` plugins.
-- **One function style** with `function` declarations at module scope and no return types that TypeScript infers (see [Rules](#rules)).
+- **One function style** with `function` declarations at module scope and no keyword return types that TypeScript can infer (see [Rules](#rules)).
 - **Awaited promises** instead of `then` chains, with each promise awaited, returned or caught.
 
 <details>
@@ -104,7 +104,7 @@ export const fetchJson = async <T>(url: string, options: RequestOptions = {}): P
   throw `Request to ${url} failed`
 }
 
-export function prefetch(urls: string[]) {
+export function prefetch(urls: string[]): void {
   urls.forEach(async url => {
     await fetchJson(url)
   })
@@ -113,14 +113,14 @@ export function prefetch(urls: string[]) {
 
 With the `base` preset, Oxlint reports:
 
-| Line | Rule                                   | Fix                                               |
-| ---- | -------------------------------------- | ------------------------------------------------- |
-| 6    | `@guello/func-style`                   | Use a `function` declaration.                     |
-| 6    | `@guello/no-inferrable-return-type`    | Remove the `Promise<T>` return type.              |
-| 7    | `typescript/prefer-nullish-coalescing` | Use `??`, so that `retries: 0` does not become 3. |
-| 16   | `no-throw-literal`                     | Throw an `Error`, which has a stack trace.        |
-| 20   | `unicorn/no-array-for-each`            | Use `map` with `Promise.all`.                     |
-| 20   | `typescript/no-misused-promises`       | Await the promises, which `forEach` ignores.      |
+| Line | Rule                                   | Fix                                          |
+| ---- | -------------------------------------- | -------------------------------------------- |
+| 6    | `@guello/func-style`                   | Use a `function` declaration.                |
+| 7    | `typescript/prefer-nullish-coalescing` | Use `??` so `retries: 0` does not become 3.  |
+| 16   | `no-throw-literal`                     | Throw an `Error` with a stack trace.         |
+| 19   | `@guello/no-inferrable-return-type`    | Remove the unneeded `void` return type.      |
+| 20   | `unicorn/no-array-for-each`            | Use `map` with `Promise.all`.                |
+| 20   | `typescript/no-misused-promises`       | Await the promises, which `forEach` ignores. |
 
 `oxlint --fix` rewrites the arrow function. After all fixes:
 
@@ -130,7 +130,7 @@ interface RequestOptions {
   signal?: AbortSignal
 }
 
-export async function fetchJson<T>(url: string, options: RequestOptions = {}) {
+export async function fetchJson<T>(url: string, options: RequestOptions = {}): Promise<T> {
   const retries = options.retries ?? 3
   for (let attempt = 0; attempt <= retries; attempt++) {
     try {
@@ -354,7 +354,7 @@ export function Slideshow({ photos, status, onShare }: Props) {
 The presets load [`@guello/oxlint-plugin`](https://github.com/guello/configs/tree/main/packages/oxlint-plugin#readme) and turn on its rules:
 
 - `@guello/func-style`: enforces `function` declarations at module scope and `const` arrows inside function bodies.
-- `@guello/no-inferrable-return-type`: omit inferrable return types.
+- `@guello/no-inferrable-return-type`: omits keyword return types that TypeScript infers, such as `string` and `Promise<void>`.
 
 ## License
 

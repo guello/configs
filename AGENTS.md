@@ -47,7 +47,7 @@ Use the Node.js version in `.node-version` and the pnpm version in `packageManag
 - Commits follow Conventional Commits, enforced by commitlint: `type(scope): description`, with a header of 72 characters or fewer.
 - The scope is a package folder name, or `agents`, `ci`, `deps` or `release`. A change to root files or every package can omit it.
 - Module scope uses `function` declarations, and function bodies use `const` arrows. The `func-style` rule enforces it.
-- Omit return types that TypeScript can infer. The `no-inferrable-return-type` rule enforces it.
+- Omit return types that TypeScript can infer. The `no-inferrable-return-type` rule reports keyword return types, such as `string` and `Promise<void>`.
 - Keep the return types that `isolatedDeclarations` needs, type predicates, and types with `undefined` for paths that return no value.
 - Give each export and option a JSDoc for its users: what it is or returns, and what each option changes.
 - Leave implementation details, `{type}` braces and repeated signature tags out of a JSDoc. Give `defineConfig` one `@example`.

@@ -43,8 +43,8 @@ const tester = new RuleTester({
   languageOptions: { sourceType: 'module', parserOptions: { lang: 'ts' } },
 })
 
-const exportedParse = 'export function parse(text: string): unknown { return JSON.parse(text) }'
-const exportedParseFixed = 'export function parse(text: string) { return JSON.parse(text) }'
+const exportedParse = 'export function parse(text: string): number { return Number(text) }'
+const exportedParseFixed = 'export function parse(text: string) { return Number(text) }'
 
 function removal(code: string, output: string) {
   return {
@@ -71,32 +71,40 @@ tester.run('no-inferrable-return-type', noInferrableReturnType, {
     'export function factorial(value: number): number { return value <= 1 ? 1 : value * factorial(value - 1) }',
     'export const walk = (depth: number): number => (depth > 0 ? walk(depth - 1) : 0)',
     'export class Tree { depth(): number { return this.depth() + 1 } }',
+    'export function parse(text: string): unknown { return JSON.parse(text) }',
+    'export function load(): Result<Config> { return { ok: true, value: config } }',
+    'export function plugin(): Plugin { return { apply(compiler) {} } }',
+    'export function names(): readonly string[] { return [] }',
+    'export function label(): string | null { return null }',
+    'export function schema(): Record<string, unknown> { return {} }',
+    'export async function fetchJson<T>(url: string): Promise<T> { return (await fetch(url)).json() }',
+    'export function* count(): Generator<number> { yield 1 }',
     {
-      code: 'export function parse(text: string): unknown { return JSON.parse(text) }',
+      code: 'export function parse(text: string): number { return Number(text) }',
       options: [{ allowExported: true }],
     },
     {
-      code: 'export const parse = (text: string): unknown => JSON.parse(text)',
+      code: 'export const parse = (text: string): number => Number(text)',
       options: [{ allowExported: true }],
     },
     {
-      code: 'export default function parse(text: string): unknown { return JSON.parse(text) }',
+      code: 'export default function parse(text: string): number { return Number(text) }',
       options: [{ allowExported: true }],
     },
     {
-      code: 'export class Parser { parse(text: string): unknown { return JSON.parse(text) } }',
+      code: 'export class Parser { parse(text: string): number { return Number(text) } }',
       options: [{ allowExported: true }],
     },
     {
-      code: 'export const api = { parse(text: string): unknown { return JSON.parse(text) } }',
+      code: 'export const api = { parse(text: string): number { return Number(text) } }',
       options: [{ allowExported: true }],
     },
     {
-      code: 'function parse(text: string): unknown { return JSON.parse(text) }\nexport { parse }',
+      code: 'function parse(text: string): number { return Number(text) }\nexport { parse }',
       options: [{ allowExported: true }],
     },
     {
-      code: 'const parse = (text: string): unknown => JSON.parse(text)\nexport default parse',
+      code: 'const parse = (text: string): number => Number(text)\nexport default parse',
       options: [{ allowExported: true }],
     },
     { code: exportedParse, filename: join(root, 'isolated', 'index.ts') },
@@ -130,8 +138,20 @@ tester.run('no-inferrable-return-type', noInferrableReturnType, {
       'export const api = { size() { return 1 } }',
     ),
     removal(
-      'export function* count(): Generator<number> { yield 1 }',
-      'export function* count() { yield 1 }',
+      'export function names(): string[] { return [] }',
+      'export function names() { return [] }',
+    ),
+    removal(
+      'export function flags(): Array<boolean> { return [true] }',
+      'export function flags() { return [true] }',
+    ),
+    removal(
+      'export async function read(): Promise<string> { return "" }',
+      'export async function read() { return "" }',
+    ),
+    removal(
+      'export function log(): void { console.info(1) }',
+      'export function log() { console.info(1) }',
     ),
     removal('[1].map((value): number => value)', '[1].map((value) => value)'),
     {

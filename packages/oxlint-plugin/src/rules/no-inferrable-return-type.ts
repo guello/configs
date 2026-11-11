@@ -30,20 +30,33 @@ const EXPORT_PATH = new Set<string>([
   'VariableDeclarator',
 ])
 
-function includesUndefined(type: ESTree.TSType): boolean {
-  if (type.type === 'TSUndefinedKeyword') return true
-  if (type.type === 'TSUnionType') return type.types.some(includesUndefined)
-  if (type.type !== 'TSTypeReference') return false
-  const [awaited] = type.typeArguments?.params ?? []
-  return type.typeName.type === 'Identifier' && type.typeName.name === 'Promise' && !!awaited
-    ? includesUndefined(awaited)
-    : false
+const KEYWORDS = new Set<string>([
+  'TSBigIntKeyword',
+  'TSBooleanKeyword',
+  'TSNullKeyword',
+  'TSNumberKeyword',
+  'TSStringKeyword',
+  'TSSymbolKeyword',
+])
+
+function typeArgument(type: ESTree.TSType, name: string): ESTree.TSType | undefined {
+  if (type.type !== 'TSTypeReference' || type.typeName.type !== 'Identifier') return undefined
+  const params = type.typeArguments?.params ?? []
+  return type.typeName.name === name && params.length === 1 ? params[0] : undefined
 }
 
-function isRequired(type: ESTree.TSType) {
-  return (
-    type.type === 'TSTypePredicate' || type.type === 'TSNeverKeyword' || includesUndefined(type)
-  )
+function isKeywordValue(type: ESTree.TSType): boolean {
+  if (KEYWORDS.has(type.type)) return true
+  if (type.type === 'TSArrayType') return isKeywordValue(type.elementType)
+  const element = typeArgument(type, 'Array')
+  return element ? isKeywordValue(element) : false
+}
+
+function isInferrable(type: ESTree.TSType) {
+  if (type.type === 'TSVoidKeyword') return true
+  const awaited = typeArgument(type, 'Promise')
+  if (awaited) return awaited.type === 'TSVoidKeyword' || isKeywordValue(awaited)
+  return isKeywordValue(type)
 }
 
 function keyName(node: ESTree.Node) {
@@ -96,7 +109,7 @@ export const noInferrableReturnType: Rule = defineRule({
   meta: {
     type: 'suggestion',
     docs: {
-      description: 'Omit return types that TypeScript infers.',
+      description: 'Omit keyword return types that TypeScript infers.',
     },
     hasSuggestions: true,
     messages: {
@@ -138,7 +151,7 @@ export const noInferrableReturnType: Rule = defineRule({
 
     const check = (node: FunctionNode) => {
       const { body, returnType } = node
-      if (!body || !returnType || isRequired(returnType.typeAnnotation)) return
+      if (!body || !returnType || !isInferrable(returnType.typeAnnotation)) return
       if (node.type === 'FunctionDeclaration' && node.id && declaredOverloads.has(node.id.name)) {
         return
       }

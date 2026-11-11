@@ -76,7 +76,7 @@ export default function main() {}
 
 ### `@guello/no-inferrable-return-type`
 
-Omit return types that TypeScript can infer without reporting the required ones.
+Omit keyword return types that TypeScript infers: `string`, `number`, `boolean`, `bigint`, `symbol`, `null` and `void`, arrays and promises of primitive types. The rule preserves named types, such as `Result<T>`, that set a contract that TypeScript inference loses.
 
 ```ts
 // Incorrect
