@@ -1,14 +1,50 @@
+import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises'
+import { tmpdir } from 'node:os'
+import { dirname, join } from 'node:path'
+
 import { RuleTester } from 'oxlint/plugins-dev'
-import { describe, it } from 'vitest'
+import { afterAll, describe, it } from 'vitest'
 
 import { noInferrableReturnType } from '../../src/rules/no-inferrable-return-type.ts'
 
 RuleTester.describe = describe
 RuleTester.it = it
 
+const root = await mkdtemp(join(tmpdir(), 'no-inferrable-return-type-'))
+afterAll(() => rm(root, { recursive: true, force: true }))
+
+const configs = {
+  'isolated/tsconfig.json': `{
+    // Comments, URLs in strings and trailing commas are valid in a tsconfig.
+    "$schema": "https://json.schemastore.org/tsconfig",
+    /* Block comment */
+    "compilerOptions": { "isolatedDeclarations": true, },
+  }`,
+  'relative/tsconfig.json': '{ "extends": "../isolated/tsconfig" }',
+  'package/tsconfig.json': '{ "extends": "shared/strict" }',
+  'package/node_modules/shared/package.json': '{ "exports": { "./strict": "./strict.json" } }',
+  'package/node_modules/shared/strict.json':
+    '{ "compilerOptions": { "isolatedDeclarations": true } }',
+  'array/tsconfig.json': '{ "extends": ["../isolated/tsconfig.json", "./off.json"] }',
+  'array/off.json': '{ "compilerOptions": { "isolatedDeclarations": false } }',
+  'override/tsconfig.json':
+    '{ "extends": "../isolated/tsconfig.json", "compilerOptions": { "isolatedDeclarations": false } }',
+}
+
+await Promise.all(
+  Object.entries(configs).map(async ([path, text]) => {
+    await mkdir(dirname(join(root, path)), { recursive: true })
+    await writeFile(join(root, path), text)
+  }),
+)
+
 const tester = new RuleTester({
+  cwd: root,
   languageOptions: { sourceType: 'module', parserOptions: { lang: 'ts' } },
 })
+
+const exportedParse = 'export function parse(text: string): unknown { return JSON.parse(text) }'
+const exportedParseFixed = 'export function parse(text: string) { return JSON.parse(text) }'
 
 function removal(code: string, output: string) {
   return {
@@ -63,6 +99,10 @@ tester.run('no-inferrable-return-type', noInferrableReturnType, {
       code: 'const parse = (text: string): unknown => JSON.parse(text)\nexport default parse',
       options: [{ allowExported: true }],
     },
+    { code: exportedParse, filename: join(root, 'isolated', 'index.ts') },
+    { code: exportedParse, filename: join(root, 'isolated', 'src', 'lib', 'index.ts') },
+    { code: exportedParse, filename: join(root, 'relative', 'index.ts') },
+    { code: exportedParse, filename: join(root, 'package', 'index.ts') },
   ],
   invalid: [
     removal(
@@ -123,6 +163,14 @@ tester.run('no-inferrable-return-type', noInferrableReturnType, {
           ],
         },
       ],
+    },
+    { ...removal(exportedParse, exportedParseFixed), filename: join(root, 'array', 'index.ts') },
+    { ...removal(exportedParse, exportedParseFixed), filename: join(root, 'override', 'index.ts') },
+    { ...removal(exportedParse, exportedParseFixed), filename: join(root, 'none', 'index.ts') },
+    {
+      ...removal(exportedParse, exportedParseFixed),
+      filename: join(root, 'isolated', 'index.ts'),
+      options: [{ allowExported: false }],
     },
   ],
 })

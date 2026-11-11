@@ -1,5 +1,7 @@
 import { type ESTree, type Rule, defineRule } from '@oxlint/plugins'
 
+import { isolatedDeclarations } from '../utils.ts'
+
 type FunctionNode = ESTree.ArrowFunctionExpression | ESTree.Function
 
 interface Options {
@@ -94,17 +96,21 @@ export const noInferrableReturnType: Rule = defineRule({
   meta: {
     type: 'suggestion',
     docs: {
-      description: 'Omit return types that TypeScript can infer.',
+      description: 'Omit return types that TypeScript infers.',
     },
     hasSuggestions: true,
     messages: {
-      inferrable: 'Remove the return type, and let TypeScript infer it.',
+      inferrable: 'Do not specify inferrable return types.',
       remove: 'Remove the return type.',
     },
     schema: [
       {
         type: 'object',
-        properties: { allowExported: { type: 'boolean' } },
+        properties: {
+          allowExported: {
+            type: 'boolean',
+          },
+        },
         additionalProperties: false,
       },
     ],
@@ -115,7 +121,7 @@ export const noInferrableReturnType: Rule = defineRule({
     const exportedNames = new Set<string>()
     const thisMembers: ESTree.MemberExpression[] = []
 
-    // A function that calls itself can need its type, because TypeScript cannot infer a circular return type.
+    // A function that calls itself might need the return type because TypeScript cannot infer circular types.
     const isRecursive = (node: FunctionNode) => {
       const { declaration, name } = binding(node)
       const variable =
@@ -166,7 +172,8 @@ export const noInferrableReturnType: Rule = defineRule({
       FunctionDeclaration: check,
       FunctionExpression: check,
       'Program:exit'() {
-        const { allowExported = false } = (context.options[0] ?? {}) as Options
+        const options = (context.options[0] ?? {}) as Options
+        const allowExported = options.allowExported ?? isolatedDeclarations(context.filename)
         for (const { node, returnType, exported } of candidates) {
           if (allowExported) {
             if (exported === true) continue
