@@ -1,5 +1,11 @@
 # @guello/oxlint-plugin
 
+## 0.2.1
+
+### Patch Changes
+
+- 5ed8759: `no-inferrable-return-type` reports only keyword return types, such as `string`, `boolean[]` and `Promise<void>`. It preserves named types such as `Result<T>`, because they can set a contract that inference loses.
+
 ## 0.2.0
 
 ### Minor Changes
