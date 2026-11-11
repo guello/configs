@@ -16,6 +16,7 @@ jobs:
     if: github.event.repository.fork == false
     runs-on: ubuntu-latest
     permissions:
+      actions: write
       contents: write
       id-token: write
       pull-requests: write
@@ -33,9 +34,15 @@ jobs:
         run: |
           pnpm changeset status --output "$RUNNER_TEMP/release-plan.json"
           node .github/scripts/release-message.ts "$RUNNER_TEMP/release-plan.json"
-      - uses: changesets/action@ae32849d5ba541f9ae29e40e22a623bc13562f51 # v2.1.2
+      - id: changesets
+        uses: changesets/action@ae32849d5ba541f9ae29e40e22a623bc13562f51 # v2.1.2
         with:
           commit-message: ${{ steps.release-message.outputs.message }}
           create-github-releases: true
           pr-title: ${{ steps.release-message.outputs.title }}
           publish-script: pnpm run release
+      - if: steps.changesets.outputs.pr-number != ''
+        env:
+          BRANCH: changeset-release/${{ github.ref_name }}
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run ci.yml --ref "$BRANCH"

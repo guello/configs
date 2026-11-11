@@ -56,7 +56,7 @@ Use the Node.js version in `.node-version` and the pnpm version in `packageManag
 
 1. Add a changeset with `pnpm changeset` in the pull request that changes a package.
 2. On push to `main`, `release.yml` opens or updates the version pull request, with a title from `.github/scripts/release-message.ts`.
-3. CI does not run on that pull request, because `GITHUB_TOKEN` opened it. To run CI there, use `workflow_dispatch`.
+3. `release.yml` starts the CI through `workflow_dispatch` because `GITHUB_TOKEN` events don't start workflows.
 4. After the merge, `release.yml` runs `pnpm run release`: `pnpm run ci`, then `changeset publish` through npm trusted publishing.
 5. It also pushes the `<name>@<version>` tag and creates the GitHub release.
 
