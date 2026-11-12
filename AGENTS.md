@@ -29,7 +29,7 @@ Use the Node.js version in `.node-version` and the pnpm version in `packageManag
 - The Git hooks run `pnpm run check` before a commit, commitlint on the message, and `pnpm run ci` before a push.
 - On each push to `main`, pull request and manual run, CI runs `pnpm run check` on `.node-version`, and commitlint on pull request commits.
 - CI runs `pnpm run test` on Node.js 22.18.0 (the `engines` floor), 24 and 26.
-- CI skips commits pushed by `github-actions[bot]` because `release.yml` already runs `pnpm run ci` on the release commit.
+- CI skips commits with a `chore(release):` header, because `release.yml` already runs `pnpm run ci` on the release commit.
 
 ## Workspace rules
 
@@ -58,7 +58,7 @@ Use the Node.js version in `.node-version` and the pnpm version in `packageManag
 
 1. Add a changeset with `pnpm changeset` in the pull request that changes a package.
 2. On push to `main`, `release.yml` opens or updates the version pull request, with a title from `.github/scripts/release-message.ts`.
-3. `release.yml` starts the CI through `workflow_dispatch` because `GITHUB_TOKEN` events don't start workflows.
+3. `release.yml` pushes with a GitHub app token from `RELEASE_APP_CLIENT_ID` and `RELEASE_APP_PRIVATE_KEY`, so the version pull request CI starts automatically.
 4. After the merge, `release.yml` runs `pnpm run release`: `pnpm run ci`, then `changeset publish` through npm trusted publishing.
 5. It also pushes the `<name>@<version>` tag and creates the GitHub release.
 

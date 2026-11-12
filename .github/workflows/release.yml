@@ -16,10 +16,8 @@ jobs:
     if: github.event.repository.fork == false
     runs-on: ubuntu-latest
     permissions:
-      actions: write
-      contents: write
+      contents: read
       id-token: write
-      pull-requests: write
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -34,15 +32,17 @@ jobs:
         run: |
           pnpm changeset status --output "$RUNNER_TEMP/release-plan.json"
           node .github/scripts/release-message.ts "$RUNNER_TEMP/release-plan.json"
-      - id: changesets
-        uses: changesets/action@ae32849d5ba541f9ae29e40e22a623bc13562f51 # v2.1.2
+      - id: app-token
+        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+        with:
+          client-id: ${{ vars.RELEASE_APP_CLIENT_ID }}
+          private-key: ${{ secrets.RELEASE_APP_PRIVATE_KEY }}
+          permission-contents: write
+          permission-pull-requests: write
+      - uses: changesets/action@ae32849d5ba541f9ae29e40e22a623bc13562f51 # v2.1.2
         with:
           commit-message: ${{ steps.release-message.outputs.message }}
           create-github-releases: true
+          github-token: ${{ steps.app-token.outputs.token }}
           pr-title: ${{ steps.release-message.outputs.title }}
           publish-script: pnpm run release
-      - if: steps.changesets.outputs.pr-number != ''
-        env:
-          BRANCH: changeset-release/${{ github.ref_name }}
-          GH_TOKEN: ${{ github.token }}
-        run: gh workflow run ci.yml --ref "$BRANCH"
