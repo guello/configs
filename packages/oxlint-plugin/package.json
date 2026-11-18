@@ -40,7 +40,7 @@
     "test": "pnpm run build && vitest run --dir test --exclude \"**/fixtures/**\""
   },
   "dependencies": {
-    "@oxlint/plugins": "^1.91.0"
+    "@oxlint/plugins": "^1.93.0"
   },
   "devDependencies": {
     "@types/node": "catalog:",
