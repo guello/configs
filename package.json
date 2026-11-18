@@ -26,7 +26,7 @@
     "@changesets/config": "^4.0.1",
     "@commitlint/cli": "catalog:",
     "@types/node": "catalog:",
-    "knip": "^6.44.1",
+    "knip": "^6.45.1",
     "oxfmt": "catalog:",
     "oxlint": "catalog:",
     "oxlint-tsgolint": "catalog:",
