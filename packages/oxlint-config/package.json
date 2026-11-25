@@ -45,7 +45,7 @@
   "devDependencies": {
     "@types/node": "catalog:",
     "oxlint": "catalog:",
-    "oxlint-plugin-react-doctor": "^0.9.22",
+    "oxlint-plugin-react-doctor": "^0.9.23",
     "oxlint-tsgolint": "catalog:",
     "publint": "catalog:",
     "tsdown": "catalog:",
